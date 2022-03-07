@@ -1,120 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <style>
-        td,th{border:solid 2px #575757;padding:1px 10px}
-        table{border-collapse:collapse;}
-        .test{
-            border:solid 0px;
-        }
-    </style>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <style>
+            td,th{border:solid 2px #575757;padding:1px 10px}
+            table{border-collapse:collapse;}
+            .test{
+                border:solid 0px;
+            }
+        </style>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-    <script type="text/JavaScript">
-        function testing() {
-            var limit = 100;
-            var y = 50;    
-            var data = [];
-            var dataSeries = { type: "line" };
-            var dataPoints = [];
-            var xcenter=Number(document.form1.xcenter.value)
-            var func=document.form1.func.value
-            var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
-            keisuu.forEach((element,index) => {
-                if(!element)element=[0]
-                keisuu[index]=eval(element.join(""))
-            });
-            for(var i=1;i<14;i++){
-                var xcell="x"+i
-                var ycell="y"+i
-                if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
-                else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
-                else value= xcenter
-                var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
-                document.form1[xcell].value=value
-                document.form1[ycell].value=sol
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+        <script type="text/JavaScript">
+            function testing() {
+                var limit = 100;
+                var y = 50;    
+                var data = [];
+                var dataSeries = { type: "line" };
+                var dataPoints = [];
+                var xcenter=Number(document.form1.xcenter.value)
+                var func=document.form1.func.value.replace("*","")
+                var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
+                keisuu.forEach((element,index) => {
+                    if(!element)element=[0]
+                    keisuu[index]=eval(element.join(""))
+                });
+                for(var i=1;i<14;i++){
+                    var xcell="x"+i
+                    var ycell="y"+i
+                    if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
+                    else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
+                    else value= xcenter
+                    var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
+                    document.form1[xcell].value=value
+                    document.form1[ycell].value=sol
 
-                dataPoints.push({x:value,y:sol})
-                dataSeries.dataPoints = dataPoints;
-                data.push(dataSeries);
-                }
+                    dataPoints.push({x:value,y:sol})
+                    dataSeries.dataPoints = dataPoints;
+                    data.push(dataSeries);
+                    }
 
-            var options = {
-                zoomEnabled: true,
-                animationEnabled: true,
-                title: {text: "関数のグラフ"},
-                axisY: {lineThickness: 1},
-                data: data  // random data
-            };
-            var chart = new CanvasJS.Chart("chartContainer", options);
-            chart.render();
-        }
-    </script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>計算する</title>
-</head>
-<body>
-    <form name="form1">
-        <p class="font">
-        関数を入力：ｙ=
-        <input type="text" name="func"><br>
-        x=
-        <input type="number" step="1" name="xcenter" style="width:45px;">
-        の周りを調べる。<br>
-        <input type="button" value="表示" onclick="testing()"><br><br>
-        <table>
-            <tr>
-                <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="x0" disabled value="x"></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x1" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x2" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x3" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x4" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x5" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x6" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x7" disabled></td>
-                
-            </tr>
-            <tr>
-                <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="y0" value="y" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y1" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y2" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y3" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y4" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y5" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y6" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y7" disabled></td>
-            </tr>   
-        </table><br>
-        <table>
-            <tr>
-                <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="x0" disabled value="x"></td>   
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x8" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x9" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x10" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x11" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x12" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x13" disabled></td>
-            </tr>
-            <tr>
-                <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="y0" value="y" disabled></td>             
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y8" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y9" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y10" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y11" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y12" disabled></td>
-                <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y13" disabled></td>
-            </tr>
-        </table>
-    </p>
-    <p class="rise">
-    ※関数は三次関数まで対応
-    </p>
+                var options = {
+                    zoomEnabled: true,
+                    animationEnabled: true,
+                    title: {text: "関数のグラフ"},
+                    axisY: {lineThickness: 1},
+                    data: data  // random data
+                };
+                var chart = new CanvasJS.Chart("chartContainer", options);
+                chart.render();
+            }
+        </script>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>計算する</title>
+    </head>
+    <body>
+        <form name="form1">
+            <p class="font">
+            関数を入力：ｙ=
+            <input type="text" name="func" placeholder="x^3+2x^2+3x+4"><br>
+            x=
+            <input type="number" step="1" name="xcenter" style="width:45px;" value="0">
+            の周りを調べる。<br>
+            <input type="button" value="表示" onclick="testing()"><br><br>
+            <table>
+                <tr>
+                    <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="x0" disabled value="x"></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x1" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x2" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x3" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x4" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x5" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x6" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x7" disabled></td>
+                    
+                </tr>
+                <tr>
+                    <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="y0" value="y" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y1" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y2" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y3" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y4" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y5" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y6" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y7" disabled></td>
+                </tr>   
+            </table><br>
+            <table>
+                <tr>
+                    <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="x0" disabled value="x"></td>   
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x8" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x9" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x10" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x11" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x12" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="x13" disabled></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="test" style="width:20px; font-size:20px;"  name="y0" value="y" disabled></td>             
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y8" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y9" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y10" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y11" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y12" disabled></td>
+                    <td><input type="text" class="test" style="width:90px; font-size:20px;"  name="y13" disabled></td>
+                </tr>
+            </table>
+        </p>
+        <p class="rise">
+        ※関数は三次関数まで対応
+        </p>
 
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-    <span id="timeToRender"></span>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    </form>
-</body>
-</html>
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        <span id="timeToRender"></span>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        </form>
+    </body>
+    </html>
