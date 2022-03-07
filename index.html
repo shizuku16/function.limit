@@ -9,25 +9,45 @@
         }
     </style>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
     <script type="text/JavaScript">
         function testing() {
-        var xcenter=Number(document.form1.xcenter.value)
-        var func=document.form1.func.value
-        var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
-        keisuu.forEach((element,index) => {
-            if(!element)element=[0]
-            keisuu[index]=eval(element.join(""))
-        });
+            var limit = 100;
+            var y = 50;    
+            var data = [];
+            var dataSeries = { type: "line" };
+            var dataPoints = [];
+            var xcenter=Number(document.form1.xcenter.value)
+            var func=document.form1.func.value
+            var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
+            keisuu.forEach((element,index) => {
+                if(!element)element=[0]
+                keisuu[index]=eval(element.join(""))
+            });
             for(var i=1;i<14;i++){
-            var xcell="x"+i
-            var ycell="y"+i
-            if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
-            else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
-            else value= xcenter
-            var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
-            document.form1[xcell].value=value
-            document.form1[ycell].value=sol
-        }
+                var xcell="x"+i
+                var ycell="y"+i
+                if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
+                else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
+                else value= xcenter
+                var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
+                document.form1[xcell].value=value
+                document.form1[ycell].value=sol
+
+                dataPoints.push({x:value,y:sol})
+                dataSeries.dataPoints = dataPoints;
+                data.push(dataSeries);
+                }
+
+            var options = {
+                zoomEnabled: true,
+                animationEnabled: true,
+                title: {text: "関数のグラフ"},
+                axisY: {lineThickness: 1},
+                data: data  // random data
+            };
+            var chart = new CanvasJS.Chart("chartContainer", options);
+            chart.render();
         }
     </script>
     <meta charset="UTF-8">
@@ -91,6 +111,10 @@
     <p class="rise">
     ※関数は三次関数まで対応
     </p>
+
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <span id="timeToRender"></span>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     </form>
 </body>
 </html>
