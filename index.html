@@ -9,7 +9,6 @@
             }
         </style>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
         <script type="text/JavaScript">
             function testing() {
                 var limit = 100;
@@ -18,7 +17,7 @@
                 var dataSeries = { type: "line" };
                 var dataPoints = [];
                 var xcenter=Number(document.form1.xcenter.value)
-                var func=document.form1.func.value.replace("*","")
+                var func=document.form1.func.value.replace("*","").replace(/(?<!\d)x/g,"1x")
                 var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
                 keisuu.forEach((element,index) => {
                     if(!element)element=[0]
