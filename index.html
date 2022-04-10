@@ -8,46 +8,49 @@
                 border:solid 0px;
             }
         </style>
-
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script type="text/JavaScript">
-            function testing() {
-                var limit = 100;
-                var y = 50;    
-                var data = [];
-                var dataSeries = { type: "line" };
-                var dataPoints = [];
-                var xcenter=Number(document.form1.xcenter.value)
-                var func=document.form1.func.value.replace("*","").replace(/(?<!\d)x/g,"1x")
-                var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
-                keisuu.forEach((element,index) => {
-                    if(!element)element=[0]
-                    keisuu[index]=eval(element.join(""))
-                });
-                for(var i=1;i<14;i++){
-                    var xcell="x"+i
-                    var ycell="y"+i
-                    if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
-                    else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
-                    else value= xcenter
-                    var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
-                    document.form1[xcell].value=value
-                    document.form1[ycell].value=sol
+            $(function(){
+                $("#btn").click(function(){
+                    var limit = 100;
+                    var y = 50;    
+                    var data = [];
+                    var dataSeries = { type: "line" };
+                    var dataPoints = [];
+                    var xcenter=Number($("#xcenter").val())
+                    var func=document.form1.func.value.replace("*","").replace(/(?<!\d)x/g,"1x")
+                    var keisuu=[func.match(/[\+-]?\d+(?=x\^3)/g),func.match(/[\+-]?\d+(?=x\^2)/g),func.match(/[\+-]?\d+(?=x(?!\^))/g),func.match(/[\+-]+\d+(?!x)/g)]
+                    keisuu.forEach((element,index) => {
+                        if(!element)element=[0]
+                        keisuu[index]=eval(element.join(""))
+                    });
+                    for(var i=1;i<14;i++){
+                        var xcell="x"+i
+                        var ycell="y"+i
+                        if(i<7)var value=xcenter-(10**(-i)).toFixed(6)
+                        else if(i>7)value=xcenter+Number((10**(i-14)).toFixed(14-i))
+                        else value= xcenter
+                        var sol=keisuu[0]*Number((value**3).toFixed(20))+keisuu[1]*Number((value**2).toFixed(20))+keisuu[2]*Number(value.toFixed(20))+keisuu[3]
+                        document.form1[xcell].value=value
+                        document.form1[ycell].value=sol
 
-                    dataPoints.push({x:value,y:sol})
-                    dataSeries.dataPoints = dataPoints;
-                    data.push(dataSeries);
+                        dataPoints.push({x:value,y:sol})
+                        dataSeries.dataPoints = dataPoints;
+                        data.push(dataSeries);
                     }
 
-                var options = {
-                    zoomEnabled: true,
-                    animationEnabled: true,
-                    title: {text: "関数のグラフ"},
-                    axisY: {lineThickness: 1},
-                    data: data  // random data
-                };
-                var chart = new CanvasJS.Chart("chartContainer", options);
-                chart.render();
-            }
+                    var options = {
+                        zoomEnabled: true,
+                        animationEnabled: true,
+                        title: {text: "関数のグラフ"},
+                        axisY: {lineThickness: 1},
+                        data: data  // random data
+                    };
+                    var chart = new CanvasJS.Chart("chartContainer", options);
+                    chart.render();        
+                });
+            })
         </script>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,9 +63,9 @@
             関数を入力：f(x)=
             <input type="text" name="func" placeholder="x^3+2x^2+3x+4"><br>
             xを
-            <input type="number" step="1" name="xcenter" style="width:45px;" value="0">
+            <input type="number" step="1" id="xcenter" style="width:45px;" value="0">
             に近づける。<br>
-            <button type="button" onclick="testing()">表示</button><br><br>
+            <button type="button" id="btn">表示</button><br><br>
             <table>
                 <tr>
                     <td><input type="text" class="test" style="width:30px; font-size:20px;"  name="x0" disabled value="x"></td>
